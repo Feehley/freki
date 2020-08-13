@@ -120,8 +120,13 @@ class PE:
             dll_name = item.dll.decode()
             self.info["imports"][dll_name] = []
             for i in item.imports:
-                self.info["imports"][dll_name].append({"name" : i.name.decode(),
+                try:
+                    self.info["imports"][dll_name].append({"name" : i.name.decode(),
                                                        "address" : hex(i.address)})
+                except Exception as inst:
+                      print("Error: {}".format(inst))
+                      self.info["imports"][dll_name].append({"name" : "Unrecoverable", 
+                                                             "address" : hex(i.address)})
 
         return self.info["imports"]
         
